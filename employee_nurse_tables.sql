@@ -5,7 +5,7 @@ CREATE TABLE Employee (
 	l_name VARCHAR(15),
     sin_number INT(9),
 	emp_ID INT(9) PRIMARY KEY,
-	salary INT(7),
+	salary DECIMAL(8,2),
     date_hired DATE,
     province CHAR(2),
     city VARCHAR(15),
@@ -19,8 +19,13 @@ CREATE TABLE Nurse (
 	emp_ID INT(9) PRIMARY KEY,
     specialization VARCHAR(15),
     patient_1 INT(9),
-    patient_2 INT(9)
+    patient_2 INT(9),
+    
+    FOREIGN KEY(emp_ID) REFERENCES Employee(emp_ID)
+    -- FOREIGN KEY (patient_1) REFERENCES [Patient].PatientID
+    -- FOREIGN KEY (patient_2) REFERENCES [Patient].PatientID
     );
+    
 
 -- insert all employees
 INSERT INTO Employee VALUES('Sophie', 'C','Sears',807616275,332633253,158488.00,'1997-07-16','ON','Windsor',816,'S. Helen St','E8R 3K1');
@@ -64,3 +69,5 @@ INSERT INTO Nurse VALUES(542728140,'Dermatology',354623432,635423432);
 INSERT INTO Nurse VALUES(688624307,'Ambulatory',354234322,NULL);
 INSERT INTO Nurse VALUES(478116982,'Cardiology',452346323,354234322);
 INSERT INTO Nurse VALUES(361627012,'Ambulatory',634233232,344532423);
+
+select * from Employee;
