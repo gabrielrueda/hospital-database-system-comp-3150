@@ -20,7 +20,7 @@ INSERT INTO Employee VALUES('Ellis','M','Kerr',452745273,865726055,66728.00,'200
 INSERT INTO Employee VALUES('Alicia', 'M','Campbell',880946090,264828278,80985.00,'2012-08-08','ON','Windsor',35,'Canterbury Rd','T7E1V4');
 INSERT INTO Employee VALUES('Alistair', 'J','Solis',592973624,299579933,74419.00,'2010-03-16','ON','Windsor',345,'Ellis Ave','N8T4A3');
 INSERT INTO Employee VALUES('Sadie', 'C','Calhoun',666585428,181729913,72342.00,'2004-01-22','ON','Windsor',7923,'Country St','N8N9E5');
-INSERT INTO Employee VALUES('Ruqayyah', 'ON','Martinez',921363293,556789065,79336.00,'2012-08-10','ON','Windsor',99,'Parker St','T7Z4J2');
+INSERT INTO Employee VALUES('Ruqayyah', 'O','Martinez',921363293,556789065,79336.00,'2012-08-10','ON','Windsor',99,'Parker St','T7Z4J2');
 INSERT INTO Employee VALUES('Joanne', 'K', 'Estez' ,874977043,542728140,83779.00,'2005-05-09','ON','Tecumseh',9997, 'Oakwood St','T1P2E4');
 INSERT INTO Employee VALUES('Austin', 'L','Schaefer',638499344,688624307,76275.00,'2012-04-25','ON','Windsor',615,'East Shore Ave','A2H4N5'); 
 INSERT INTO Employee VALUES('Raees', 'S', 'Lester',146854037,478116982,83577.00,'2010-08-25','ON','Windsor',277,'Kent St','G6G4E2');
@@ -97,8 +97,8 @@ VALUES (147289473, "Grand Marais", 2930, "Dominion Blvd",0, "Windsor","ON", "N9E
 
 -- Insert Hospital Bills --
 
-INSERT INTO Hospital_Bills VALUES(123, 164187546, "Outlette", "Advil", 10200.35);
-INSERT INTO Hospital_Bills VALUES(453, 164187546, "Grace", "Antihistamines", 0.02);
+INSERT INTO HospitalBills VALUES(123, 164187546, "Outlette", "Advil", 10200.35);
+INSERT INTO HospitalBills VALUES(453, 164187546, "Grace", "Antihistamines", 0.02);
 
 
 
@@ -122,6 +122,6 @@ INSERT INTO Nurse VALUES(361627012,1,634233232,344532423);
 
 -- Insert Doctor Patient List -- 
 
-INSERT INTO Doctor_Patient_List VALUES(243512326, 354234322);
-INSERT INTO Doctor_Patient_List VALUES(243512326, 623434362);
-INSERT INTO Doctor_Patient_List VALUES(243512326, 635423432);
+INSERT INTO DoctorPatientList VALUES(243512326, 354234322);
+INSERT INTO DoctorPatientList VALUES(243512326, 623434362);
+INSERT INTO DoctorPatientList VALUES(243512326, 635423432);
