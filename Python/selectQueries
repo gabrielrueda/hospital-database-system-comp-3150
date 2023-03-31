@@ -1,0 +1,14 @@
+//USE HOSPITAL_DB;
+use hospital_db;
+
+-- Just Write all the queries we use in our program here --
+SELECT e.FirstName, e.LastName, s.SpecialName FROM Doctor as d, Employee as e, Specialization as s
+WHERE d.EmpID = e.EmpID AND d.Specialization = s.SpecialID;
+
+select * from Patient where Hospital = 'Grace';
+select * from Patient where Hospital = 'Metorpolitan';
+select * from Patient where Hospital = 'Outlette';
+
+update Patient set Hospital = %s where PatientID = '324212123', (NewLocation, PatientID)
+
+select Treatment, TotalFee from Treatments where PatientID = '324212123', (PatientID)
