@@ -2,10 +2,14 @@ import mysql.connector
 
 # Make your function import like this:
 from actions import getDoctorProfile
+from actions import addDoctor
 
-user = input("Username: ")
 
-password = input("Password: ")
+f = open("MYSQL_Practice/hospital-database-system-comp-3150/FinalSubmission/info.txt", "r")
+
+user = f.readline()
+
+password = f.readline()
 
 
 mydb = mysql.connector.connect(
@@ -18,7 +22,7 @@ mydb = mysql.connector.connect(
 # make sure your function is stated in the dictionary below:
 menu = {
     1: {"Name": "Add Doctor", 
-        "Function": "addDoctor(myCursor)"
+        "Function": "addDoctor(myCursor, mydb)"
         },
     2: {"Name": "Add Nurse", 
         "Function": "addNurse(myCursor)"
@@ -51,7 +55,7 @@ menu = {
 
 
 opt = 1
-myCursor = mydb.cursor()
+
 
 while(opt != 0):
     print("---\nACTIONS: \n0) Exit")
@@ -60,9 +64,10 @@ while(opt != 0):
 
     opt = int(input(f"Which action (0-{len(menu)}):"))
     print("---")
+    myCursor = mydb.cursor(buffered=True)
     if(opt != 0): eval(menu[opt]["Function"])
-    
+    myCursor.close()
 
 
-myCursor.close()
+
 mydb.close()

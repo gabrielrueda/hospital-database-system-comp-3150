@@ -28,7 +28,8 @@ CREATE TABLE Employee (
 
 CREATE TABLE Specialization (
 	SpecialID SMALLINT(1) PRIMARY KEY,
-    SpecialName VARCHAR(50)
+    SpecialName VARCHAR(50),
+    UNIQUE(SpecialName)
 );
 
 CREATE TABLE Doctor(
