@@ -3,6 +3,26 @@ from actions import checkValidDate
 
 
 def addNurse(myCursor, mydb):
+    print("Please enter the following information: ")
+    fName = input('First Name: ')
+    mInitial = input('Middle Initial: ')
+    lName = input('Last Name: ')
+
+    myResult = nurseProfile(myCursor, fName, lName)
+    if(myResult != []):
+        print(f"Nurses of the name {fName} {lName} exist: ")
+        for result in myResult:
+            print(f"Nurse: ")
+            print(f"\tName: {result[0]}")
+            print(f"\tSpecialization: {result[1]}")
+            print(f"\tAddress: {result[2]}")
+            print(f"\tDate {result[3]}")
+            print(f"\tSIN Number: {result[4]}")
+            print(f"\tSalary: {result[5]}")
+        
+        question = input("Would you still like to add a Nurse? (y/n)")
+        if(question.lower() == 'n'): return
+            
     myCursor.close()
     myCursor = mydb.cursor(buffered=True)
 
@@ -22,10 +42,7 @@ def addNurse(myCursor, mydb):
         'Yukon': 'YT'
     }
 
-    print("Please enter the following information: ")
-    fName = input('First Name: ')
-    mInitial = input('Middle Initial: ')
-    lName = input('Last Name: ')
+
     sinNumber = input('SIN Number: ')
     salary = input('Salary: ')
     specialization = input('Specialization: ')
@@ -62,9 +79,22 @@ def addNurse(myCursor, mydb):
 
 
 def getNurseProfile(myCursor):
-    firstName = input("First name: ")
-    lastName = input("Last name: ")
-    myResult = nurseProfile(myCursor, firstName, lastName)
+    print("Please enter the following information: ")
+    fName = input('First Name: ')
+    lName = input('Last Name: ')
+
+    myResult = nurseProfile(myCursor, fName, lName)
+    if(myResult == []):
+        print(f"This Nurse does not exist.")
+        return
+    
+    if(len(myResult) > 1):
+        print(f"There are multiple doctors named {fName} {lName}")
+        empID = input("Please specify your Employee ID: ")
+        myResult = nurseProfile(myCursor, fName, lName, empID)
+    
+    myResult = myResult[0]
+
     print(f"Name: {myResult[0]}")
     print(f"Specialization: {myResult[1]}")
     print(f"Address: {myResult[2]}")
@@ -73,8 +103,12 @@ def getNurseProfile(myCursor):
     print(f"Salary: {myResult[5]}")
 
 
-def nurseProfile(myCursor, fName, lName):
-    myCursor.execute(f"SELECT CONCAT(e.FirstName,' ', e.MiddleInitials, '. ',  e.LastName), s.SpecialName, CONCAT(e.StreetNum, ' ' , e.StreetName, ', ' , e.City, ', ', e.Province, ', ',  e.PostalCode), e.DateHired, e.SinNumber, CONCAT('$', e.Salary) FROM Nurse as n, Employee as e, Specialization as s WHERE n.EmpID = e.EmpID AND n.Specialization = s.SpecialID AND e.FirstName=\"{fName}\" AND e.LastName=\"{lName}\";")
+def nurseProfile(myCursor, fName, lName, empID=None):
+    if(empID == None):
+        myCursor.execute(f"SELECT CONCAT(e.FirstName,' ', e.MiddleInitials, '. ',  e.LastName), s.SpecialName, CONCAT(e.StreetNum, ' ' , e.StreetName, ', ' , e.City, ', ', e.Province, ', ',  e.PostalCode), e.DateHired, e.SinNumber, CONCAT('$', e.Salary) FROM Nurse as n, Employee as e, Specialization as s WHERE n.EmpID = e.EmpID AND n.Specialization = s.SpecialID AND e.FirstName=\"{fName}\" AND e.LastName=\"{lName}\";")
+    else:
+        myCursor.execute(f"SELECT CONCAT(e.FirstName,' ', e.MiddleInitials, '. ',  e.LastName), s.SpecialName, CONCAT(e.StreetNum, ' ' , e.StreetName, ', ' , e.City, ', ', e.Province, ', ',  e.PostalCode), e.DateHired, e.SinNumber, CONCAT('$', e.Salary) FROM Nurse as n, Employee as e, Specialization as s WHERE n.EmpID = e.EmpID AND n.Specialization = s.SpecialID AND e.FirstName=\"{fName}\" AND e.LastName=\"{lName}\" AND e.EmpID=\"{empID}\";")
+    
     myResult = myCursor.fetchall() 
 
-    return myResult[0]
+    return myResult

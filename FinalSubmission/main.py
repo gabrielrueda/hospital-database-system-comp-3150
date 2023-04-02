@@ -3,6 +3,8 @@ import mysql.connector
 # Make your function import like this:
 from actions import getDoctorProfile
 from actions import addDoctor
+from addNurse import addNurse
+from addNurse import getNurseProfile
 
 
 f = open("MYSQL_Practice/hospital-database-system-comp-3150/FinalSubmission/info.txt", "r")
@@ -25,7 +27,7 @@ menu = {
         "Function": "addDoctor(myCursor, mydb)"
         },
     2: {"Name": "Add Nurse", 
-        "Function": "addNurse(myCursor)"
+        "Function": "addNurse(myCursor, mydb)"
         },
     3: {"Name": "Add Patient", 
         "Function": "addPatient(myCursor)"
