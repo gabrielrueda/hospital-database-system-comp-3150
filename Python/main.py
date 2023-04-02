@@ -1,3 +1,4 @@
+import getpass
 import mysql.connector
 
 # Make your function import like this:
@@ -11,16 +12,16 @@ from actions import treatPatient
 user = input("Username:  ")
 
 #password = input("Password: ")
-print("Password: ")
-password = getpass()
+# print("Password: ")
+password = getpass.getpass()
 
 
 mydb = mysql.connector.connect(
     host = "localhost",
     user = user,
     password = password,
-    #database="HOSPITAL_DB"
-    database = "hospital_db"
+    database="HOSPITAL_DB"
+    # database = "hospital_db"
 )
 
 # make sure your function is stated in the dictionary below:
