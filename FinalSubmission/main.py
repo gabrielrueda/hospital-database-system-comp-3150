@@ -6,6 +6,8 @@ from actions import addDoctor
 from addNurse import addNurse
 from addNurse import getNurseProfile
 
+from actions import getDoctorPatientList
+
 
 f = open("MYSQL_Practice/hospital-database-system-comp-3150/FinalSubmission/info.txt", "r")
 

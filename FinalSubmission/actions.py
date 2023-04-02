@@ -33,7 +33,7 @@ def getDoctorProfile(myCursor):
 
 def doctorProfile(myCursor, fName, lName, empID=None):
     if(empID == None):
-        myCursor.execute(f"SELECT CONCAT(e.FirstName,' ', e.MiddleInitials, '. ',  e.LastName), s.SpecialName, CONCAT(e.StreetNum, ' ' , e.StreetName, ', ' , e.City, ', ', e.Province, ', ',  e.PostalCode), e.DateHired, e.SinNumber, CONCAT('$', e.Salary) FROM Doctor as d, Employee as e, Specialization as s WHERE d.EmpID = e.EmpID AND d.Specialization = s.SpecialID AND e.FirstName=\"{fName}\" AND e.LastName=\"{lName}\";")
+        myCursor.execute(f"SELECT CONCAT(e.FirstName,' ', e.MiddleInitials, '. ',  e.LastName), s.SpecialName, CONCAT(e.StreetNum, ' ' , e.StreetName, ', ' , e.City, ', ', e.Province, ', ',  e.PostalCode), e.DateHired, e.SinNumber, CONCAT('$', e.Salary),e.EmpID FROM Doctor as d, Employee as e, Specialization as s WHERE d.EmpID = e.EmpID AND d.Specialization = s.SpecialID AND e.FirstName=\"{fName}\" AND e.LastName=\"{lName}\";")
     else:
         myCursor.execute(f"SELECT CONCAT(e.FirstName,' ', e.MiddleInitials, '. ',  e.LastName), s.SpecialName, CONCAT(e.StreetNum, ' ' , e.StreetName, ', ' , e.City, ', ', e.Province, ', ',  e.PostalCode), e.DateHired, e.SinNumber, CONCAT('$', e.Salary) FROM Doctor as d, Employee as e, Specialization as s WHERE d.EmpID = e.EmpID AND d.Specialization = s.SpecialID AND e.FirstName=\"{fName}\" AND e.LastName=\"{lName}\" AND e.EmpID=\"{empID}\";")
 
@@ -140,4 +140,42 @@ def addDoctor(myCursor, mydb):
     myCursor.close()
 
 
-# def getDoctorPatientList(myCursor):
+def getDoctorPatientList(myCursor):
+    print("Please enter the following information: ")
+    fName = input('First Name: ')
+    lName = input('Last Name: ')
+    empID = None
+
+    myResult = doctorProfile(myCursor, fName, lName)
+    if(myResult == []):
+        print(f"This Doctor does not exist.")
+        return
+    
+    if(len(myResult) > 1):
+        print(f"There are multiple doctors named {fName} {lName}")
+        empID = input("Please specify your Employee ID: ")
+        myResult = doctorProfile(myCursor, fName, lName, empID)
+    else:
+        empID = myResult[0][6]
+
+    myCursor.execute(f"SELECT Pat.PatientID, CONCAT(Pat.FirstName,' ', Pat.LastName), Pat.Disease, Pat.Treatment FROM Patient as Pat WHERE Pat.PatientID IN (SELECT DPList.PatientID FROM DoctorPatientList as DPList WHERE DPList.DocID={empID});")
+
+    myResult = myCursor.fetchall() 
+
+    if(myResult == []):
+        print(f"Dr. {fName} {lName} currently has no patients")
+    else:
+        for patient in myResult:
+            print(f"\nPatient: {patient[1]} ({patient[0]})")
+            print(f"\tDisease: {patient[2]}")
+            if(patient[3] == None):
+                print(f"No Treatement Yet")
+            else:
+                print(f"\tTreatment: {patient[2]}")
+            
+            myCursor.execute(f"SELECT CONCAT(E.FirstName,' ', E.LastName), E.empID FROM Employee as E WHERE EmpID IN (SELECT N.EmpID FROM Nurse as N WHERE N.Patient1={patient[0]} OR N.Patient2={patient[0]});")
+            nurses = myCursor.fetchall() 
+            print(f"\tNurses:")
+            if(nurses == []): print(f"\t\tNone")
+            for nurse in nurses:
+                print(f"\t\t{nurse[0]} ({nurse[1]})")

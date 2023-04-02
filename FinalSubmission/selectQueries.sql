@@ -40,3 +40,16 @@ WHERE SpecialID=15;
 
 
 SELECT * FROM Specialization;
+
+
+-- getDoctorPatientList -- 
+
+SELECT Pat.PatientID, CONCAT(Pat.FirstName,' ', Pat.LastName), Pat.Disease, Pat.Treatment
+FROM Patient as Pat 
+WHERE Pat.PatientID IN (SELECT DPList.PatientID FROM DoctorPatientList as DPList WHERE DPList.DocID=243512326);
+
+
+SELECT CONCAT(E.FirstName,' ', E.LastName), E.empID FROM Employee as E
+WHERE EmpID IN (SELECT N.EmpID FROM Nurse as N WHERE N.Patient1=354234322 OR N.Patient2=354234322)
+
+
