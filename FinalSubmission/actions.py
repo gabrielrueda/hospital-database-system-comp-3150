@@ -138,3 +138,6 @@ def addDoctor(myCursor, mydb):
         print("NOTHING")
     
     myCursor.close()
+
+
+# def getDoctorPatientList(myCursor):
