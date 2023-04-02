@@ -8,20 +8,38 @@ from mysql.connector.errors import InternalError
 # Here is an example
 # It will just show the first doctor for now, but that will change
 def getDoctorProfile(myCursor):
-    myResult = doctorProfile(myCursor, 'Carlos')
+    print("Please enter the following information: ")
+    fName = input('First Name: ')
+    lName = input('Last Name: ')
+
+    myResult = doctorProfile(myCursor, fName, lName)
+    if(myResult == []):
+        print(f"This Doctor does not exist.")
+        return
+    
+    if(len(myResult) > 1):
+        print(f"There are multiple doctors named {fName} {lName}")
+        empID = input("Please specify your Employee ID: ")
+        myResult = doctorProfile(myCursor, fName, lName, empID)
+    
+    myResult = myResult[0]
     print(f"Name: {myResult[0]}")
     print(f"Specialization: {myResult[1]}")
     print(f"Address: {myResult[2]}")
     print(f"Date {myResult[3]}")
-    print(f"EmployeeID: {myResult[4]}")
+    print(f"SIN Number: {myResult[4]}")
     print(f"Salary: {myResult[5]}")
 
 
-def doctorProfile(myCursor, fName, lName):
-    myCursor.execute(f"SELECT CONCAT(e.FirstName,' ', e.MiddleInitials, '. ',  e.LastName), s.SpecialName, CONCAT(e.StreetNum, ' ' , e.StreetName, ', ' , e.City, ', ', e.Province, ', ',  e.PostalCode), e.DateHired, e.SinNumber, CONCAT('$', e.Salary) FROM Doctor as d, Employee as e, Specialization as s WHERE d.EmpID = e.EmpID AND d.Specialization = s.SpecialID AND e.FirstName=\"{fName}\" AND e.LastName=\"{lName}\";")
+def doctorProfile(myCursor, fName, lName, empID=None):
+    if(empID == None):
+        myCursor.execute(f"SELECT CONCAT(e.FirstName,' ', e.MiddleInitials, '. ',  e.LastName), s.SpecialName, CONCAT(e.StreetNum, ' ' , e.StreetName, ', ' , e.City, ', ', e.Province, ', ',  e.PostalCode), e.DateHired, e.SinNumber, CONCAT('$', e.Salary) FROM Doctor as d, Employee as e, Specialization as s WHERE d.EmpID = e.EmpID AND d.Specialization = s.SpecialID AND e.FirstName=\"{fName}\" AND e.LastName=\"{lName}\";")
+    else:
+        myCursor.execute(f"SELECT CONCAT(e.FirstName,' ', e.MiddleInitials, '. ',  e.LastName), s.SpecialName, CONCAT(e.StreetNum, ' ' , e.StreetName, ', ' , e.City, ', ', e.Province, ', ',  e.PostalCode), e.DateHired, e.SinNumber, CONCAT('$', e.Salary) FROM Doctor as d, Employee as e, Specialization as s WHERE d.EmpID = e.EmpID AND d.Specialization = s.SpecialID AND e.FirstName=\"{fName}\" AND e.LastName=\"{lName}\" AND e.EmpID=\"{empID}\";")
+
     myResult = myCursor.fetchall() 
 
-    return myResult[0]
+    return myResult
 
 
 def checkValidDate(year, month, day):
@@ -36,6 +54,28 @@ def checkValidDate(year, month, day):
     
 
 def addDoctor(myCursor, mydb):
+
+    print("Please enter the following information: ")
+    fName = input('First Name: ')
+    mInitial = input('Middle Initial: ')
+    lName = input('Last Name: ')
+
+    myResult = doctorProfile(myCursor, fName, lName)
+    if(myResult != []):
+        print(f"Doctors of the name {fName} {lName} exist: ")
+        for result in myResult:
+            print(f"Doctor: ")
+            print(f"\tName: {result[0]}")
+            print(f"\tSpecialization: {result[1]}")
+            print(f"\tAddress: {result[2]}")
+            print(f"\tDate {result[3]}")
+            print(f"\tSIN Number: {result[4]}")
+            print(f"\tSalary: {result[5]}")
+        
+        question = input("Would you still like to add a Doctor? (y/n)")
+        if(question.lower() == 'n'): return
+            
+
     myCursor.close()
     myCursor = mydb.cursor(buffered=True)
 
@@ -56,10 +96,6 @@ def addDoctor(myCursor, mydb):
     }
 
 
-    print("Please enter the following information: ")
-    fName = input('First Name: ')
-    mInitial = input('Middle Initial: ')
-    lName = input('Last Name: ')
     sinNumber = input('SIN Number: ')
     salary = input('Salary: ')
     specialization = input('Specialization: ')
