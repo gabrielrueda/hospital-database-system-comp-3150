@@ -58,9 +58,9 @@ CREATE TABLE Patient(
 	HomePhone char(10) NOT NULL,
 	PrimaryDoctorID int NOT NULL,
 	Disease varchar(50) NOT NULL,
-	Treatment varchar(50) NOT NULL,
+	Treatment varchar(50),
 	NumberOfDaysAdmitted int NOT NULL,
-	TotalFee DECIMAL(10,2) NOT NULL,
+	TotalFee DECIMAL(10,2) DEFAULT 0,
 
     PRIMARY KEY(PatientID), 
     FOREIGN KEY(PrimaryDoctorID) REFERENCES Doctor(EmpID)

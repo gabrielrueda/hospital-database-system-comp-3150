@@ -179,3 +179,31 @@ def getDoctorPatientList(myCursor):
             if(nurses == []): print(f"\t\tNone")
             for nurse in nurses:
                 print(f"\t\t{nurse[0]} ({nurse[1]})")
+
+
+def payBill(myCursor, mydb):
+    patientID = input("Patient ID: ")
+    myCursor.execute(f"SELECT Treatment, TotalFee FROM Patient WHERE PatientID={patientID};")
+
+    myResult = myCursor.fetchall()
+
+    print(f"Bill:")
+    print(f"\tTreatment: {myResult[0][0]}") 
+    print(f"\tCost: {myResult[0][1]}")
+
+    if((input("\nWould you like to pay for this (y/n)? ")).lower() == 'n'): return
+    
+    myCursor.close()
+    myCursor = mydb.cursor(buffered=True)
+
+    myCursor.execute(f'UPDATE Patient SET Treatment=NULL, TotalFee=0 WHERE PatientID={patientID};')
+
+    try:
+        mydb.commit()
+    except InternalError:
+        print("NOTHING")
+    
+    myCursor.close()
+
+
+
