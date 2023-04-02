@@ -56,6 +56,14 @@ WHERE EmpID IN (SELECT N.EmpID FROM Nurse as N WHERE N.Patient1=354234322 OR N.P
 -- payBills --
 SELECT Treatment, TotalFee FROM Patient WHERE PatientID=324212123;
 
-UPDATE Patient
-SET Treatment=NULL, TotalFee=0
-WHERE PatientID=324212123;
+UPDATE Patient SET Treatment=NULL, TotalFee=0 WHERE PatientID=324212123;
+
+
+-- Patient List --
+SELECT CONCAT(FirstName, ' ', LastName), PatientID FROM Patient
+
+SELECT CONCAT(FirstName, ' ', LastName), EmpID FROM Employee as E 
+WHERE EmpID IN (SELECT EmpID FROM Doctor) 
+
+SELECT CONCAT(FirstName, ' ', LastName), EmpID FROM Employee as E 
+WHERE EmpID IN (SELECT EmpID FROM Nurse) 

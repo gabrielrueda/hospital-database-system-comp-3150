@@ -173,7 +173,7 @@ def getDoctorPatientList(myCursor):
             else:
                 print(f"\tTreatment: {patient[2]}")
             
-            myCursor.execute(f"SELECT CONCAT(E.FirstName,' ', E.LastName), E.empID FROM Employee as E WHERE EmpID IN (SELECT N.EmpID FROM Nurse as N WHERE N.Patient1={patient[0]} OR N.Patient2={patient[0]});")
+            myCursor.execute(f"SELECT CONCAT(E.FirstName,\' \', E.LastName), E.empID FROM Employee as E WHERE EmpID IN (SELECT N.EmpID FROM Nurse as N WHERE N.Patient1={patient[0]} OR N.Patient2={patient[0]});")
             nurses = myCursor.fetchall() 
             print(f"\tNurses:")
             if(nurses == []): print(f"\t\tNone")
@@ -181,16 +181,20 @@ def getDoctorPatientList(myCursor):
                 print(f"\t\t{nurse[0]} ({nurse[1]})")
 
 
-def payBill(myCursor, mydb):
+def payBill_Patient(myCursor, mydb):
     patientID = input("Patient ID: ")
     myCursor.execute(f"SELECT Treatment, TotalFee FROM Patient WHERE PatientID={patientID};")
 
     myResult = myCursor.fetchall()
+    if(myResult[0][0] == None): 
+        print(f"No Bills to pay")
+
 
     print(f"Bill:")
     print(f"\tTreatment: {myResult[0][0]}") 
     print(f"\tCost: {myResult[0][1]}")
 
+    
     if((input("\nWould you like to pay for this (y/n)? ")).lower() == 'n'): return
     
     myCursor.close()
@@ -205,5 +209,28 @@ def payBill(myCursor, mydb):
     
     myCursor.close()
 
+def patientList(myCursor):
+    myCursor.execute(f'SELECT CONCAT(FirstName, \' \', LastName), PatientID FROM Patient;')
+    patients = myCursor.fetchall()
+
+    print(f"Patient List: ")
+    for patient in patients:
+        print(f"{patient[0]}: ({patient[1]})")
+
+
+def employeeList(myCursor):
+    myCursor.execute(f'SELECT CONCAT(E.FirstName, \' \', E.LastName), E.EmpID FROM Employee as E WHERE E.EmpID IN (SELECT EmpID FROM Doctor);')
+    doctors = myCursor.fetchall()
+
+    print(f"Doctor List: ")
+    for doctor in doctors:
+        print(f"{doctor[0]}: ({doctor[1]})")
+
+    myCursor.execute(f'SELECT CONCAT(E.FirstName, \' \', E.LastName), E.EmpID FROM Employee as E WHERE E.EmpID IN (SELECT EmpID FROM Nurse);')
+    nurses = myCursor.fetchall()
+
+    print(f"\nNurse List: ")
+    for nurse in nurses:
+        print(f"{nurse[0]}: ({nurse[1]})")
 
 

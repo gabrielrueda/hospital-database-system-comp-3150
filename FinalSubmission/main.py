@@ -1,5 +1,6 @@
 import mysql.connector
-
+import time
+import getpass
 # Make your function import like this:
 from actions import getDoctorProfile
 from actions import addDoctor
@@ -7,14 +8,19 @@ from addNurse import addNurse
 from addNurse import getNurseProfile
 
 from actions import getDoctorPatientList
+from actions import payBill_Patient
+
+from actions import patientList
+
+from actions import employeeList
 
 
 f = open("MYSQL_Practice/hospital-database-system-comp-3150/FinalSubmission/info.txt", "r")
 
 user = f.readline()
 
-password = f.readline()
-
+# password = f.readline()
+password = getpass.getpass()
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -55,6 +61,15 @@ menu = {
     10: {"Name": "Treat Patient", 
         "Function": "treatPatient(myCursor)"
         },
+    11: {"Name": "Employee List", 
+        "Function": "employeeList(myCursor)"
+        },
+    12: {"Name": "Patients List", 
+        "Function": "patientList(myCursor)"
+        },
+    13: {"Name": "Patient Pays Bill", 
+        "Function": "payBill_Patient(myCursor, mydb)"
+        },
 }
 
 
@@ -71,6 +86,7 @@ while(opt != 0):
     myCursor = mydb.cursor(buffered=True)
     if(opt != 0): eval(menu[opt]["Function"])
     myCursor.close()
+    time.sleep(1)
 
 
 
