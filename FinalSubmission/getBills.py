@@ -1,6 +1,9 @@
+import mysql.connector
+
 def getBillsHospital(myCursor):
 
-    hospitalName = input("From which hospital would you like to retrieve bills due?: ")
+    hospitalName = input("From which hospital would you like to retrieve bills due?\n \
+                         Options are, Ouellette, Grace, and Metropolitan:\n")
 
     myCursor.execute(f'''SELECT hb.Bill_NO, hb.PrescriptionName, hb.Amount, p.PharmacyName
                     FROM Hospital_Bills as hb 
