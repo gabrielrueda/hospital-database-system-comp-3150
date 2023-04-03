@@ -14,6 +14,8 @@ from actions import patientList
 
 from actions import employeeList
 
+from getBills import getBillsHospital
+
 
 f = open("MYSQL_Practice/hospital-database-system-comp-3150/FinalSubmission/info.txt", "r")
 
