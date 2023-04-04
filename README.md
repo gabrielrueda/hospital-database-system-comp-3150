@@ -14,5 +14,7 @@ git clone https://github.com/gabrielrueda/hospital-database-system-comp-3150.git
 
 cd hospital-database-system-comp-3150
 
+python -m pip install mysql-connector-python 
+
 python src/main.py
 ```
