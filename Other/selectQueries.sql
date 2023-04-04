@@ -75,7 +75,7 @@ select * from Patient where Hospital = 'Outlette';
 
 -- Modified Patient Profile --
 
-SELECT CONCAT(pat.FirstName,' ',  pat.LastName), pat.age, CONCAT(pat.StreetNumber, ' ' , pat.StreetName, ', ' , pat.City, ', ', pat.Province, ', ',  pat.PostalCode), pat.MobilePhone, pat.HomePhone, pat.Disease, pat.PatientID FROM Patient as pat WHERE pat.FirstName="Jade" AND pat.LastName="Silva";
+SELECT CONCAT(pat.FirstName,' ',  pat.LastName), pat.age, CONCAT(pat.StreetNumber, ' ' , pat.StreetName, ', ' , pat.City, ', ', pat.Province, ', ',  pat.PostalCode), pat.MobilePhone, pat.HomePhone, pat.Disease, pat.PatientID, pat.Hospital FROM Patient as pat WHERE pat.FirstName="Jade" AND pat.LastName="Silva";
 
 
 

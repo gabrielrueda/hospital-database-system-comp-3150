@@ -55,7 +55,7 @@ menu = {
         "Function": "getPatientProfile(myCursor)"
         },
     8: {"Name": "Relocate Patient to Another Hospital", 
-        "Function": "relocatePatient(myCursor)"
+        "Function": "relocatePatient(myCursor, mydb)"
         },
     9: {"Name": "View Doctor's Current Patients", 
         "Function": "getDoctorPatientList(myCursor)"
@@ -88,8 +88,8 @@ while(opt != 0):
     myCursor = mydb.cursor(buffered=True)
     try:
         if(opt != 0): eval(menu[opt]["Function"])
-    except:
-        print("ERROR: Action has failed!")
+    except Exception as e:
+        print(e)
     myCursor.close()
     time.sleep(1)
 

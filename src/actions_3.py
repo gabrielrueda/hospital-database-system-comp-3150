@@ -35,13 +35,15 @@ def getPatientProfile(myCursor):
     print(f"Home Phone: {myResult[4]}")
     print(f"Disease: {myResult[5]}")
     print(f"PatientID: {myResult[6]}")
+    print(f"Hospital: {myResult[7]}")
+
 
 
 def patientProfile(myCursor, fName, lName, patientID=None):
     if(patientID == None):
-        myCursor.execute(f"SELECT CONCAT(pat.FirstName,\' \',  pat.LastName), pat.age, CONCAT(pat.StreetNumber, \' \' , pat.StreetName, \', \' , pat.City, \', \', pat.Province, \', \',  pat.PostalCode), pat.MobilePhone, pat.HomePhone, pat.Disease, pat.PatientID FROM Patient as pat WHERE pat.FirstName=\"{fName}\" AND pat.LastName=\"{lName}\";")
+        myCursor.execute(f"SELECT CONCAT(pat.FirstName,\' \',  pat.LastName), pat.age, CONCAT(pat.StreetNumber, \' \' , pat.StreetName, \', \' , pat.City, \', \', pat.Province, \', \',  pat.PostalCode), pat.MobilePhone, pat.HomePhone, pat.Disease, pat.PatientID, pat.Hospital FROM Patient as pat WHERE pat.FirstName=\"{fName}\" AND pat.LastName=\"{lName}\";")
     else:
-        myCursor.execute(f"SELECT CONCAT(pat.FirstName,\' \',  pat.LastName), pat.age, CONCAT(pat.StreetNumber, \' \' , pat.StreetName, \', \' , pat.City, \', \', pat.Province, \', \',  pat.PostalCode), pat.MobilePhone, pat.HomePhone, pat.Disease, pat.PatientID FROM Patient as pat WHERE pat.FirstName=\"{fName}\" AND pat.LastName=\"{lName}\" AND pat.PatientID=\"{patientID}\";")
+        myCursor.execute(f"SELECT CONCAT(pat.FirstName,\' \',  pat.LastName), pat.age, CONCAT(pat.StreetNumber, \' \' , pat.StreetName, \', \' , pat.City, \', \', pat.Province, \', \',  pat.PostalCode), pat.MobilePhone, pat.HomePhone, pat.Disease, pat.PatientID, pat.Hospital FROM Patient as pat WHERE pat.FirstName=\"{fName}\" AND pat.LastName=\"{lName}\" AND pat.PatientID=\"{patientID}\";")
 
     myResult = myCursor.fetchall() 
 
@@ -56,20 +58,26 @@ def AssignPatientToHospital(myCursor):
     return result
 
 # Relocates patient into a different hospital
-def relocatePatient(myCursor):
-    PatientID = '324212123'
-    NewLocation = 'Grace'
+def relocatePatient(myCursor, mydb):
+    PatientID = input("Patient ID: ")
+    NewLocation = input("Hospital: ")
 
     myCursor.execute(f"update Patient set Hospital = %s where PatientID = %s", (NewLocation, PatientID))
-    myCursor.connection.commit()
+    
+    try:
+        mydb.commit()
+    except:
+        pass
+    
+    myCursor.close()
 
     print(f"Patient with ID {PatientID} has been relocated to {NewLocation}.")
 
 # Lists the treatments the patient had and display the bill
 def treatPatient(myCursor): 
-    PatientID = '635423432'
-    Treatment = 'Antihistamines, Closed Reduction'
-    TotalFee = '3283.00'
+    PatientID = input("PatientID: ")
+    Treatment = input("Treatment: ")
+    TotalFee = input('Cost: ')
 
     myCursor.execute(f"insert into HospitalBills (PatientID, Treatment, TotalFee) values (%s, %s, %s)", (PatientID, Treatment, TotalFee))
     
