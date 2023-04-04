@@ -65,3 +65,25 @@ SELECT CONCAT(FirstName, ' ', LastName), PatientID FROM Patient
 SELECT CONCAT(FirstName, ' ', LastName), EmpID FROM Employee as E WHERE EmpID IN (SELECT EmpID FROM Doctor);
 
 SELECT CONCAT(FirstName, ' ', LastName), EmpID FROM Employee as E WHERE EmpID IN (SELECT EmpID FROM Nurse);
+
+
+
+-- Patient Profile --
+select * from Patient where Hospital = 'Grace';
+select * from Patient where Hospital = 'Metorpolitan';
+select * from Patient where Hospital = 'Outlette';
+
+-- Modified Patient Profile --
+
+SELECT CONCAT(pat.FirstName,' ',  pat.LastName), pat.age, CONCAT(pat.StreetNumber, ' ' , pat.StreetName, ', ' , pat.City, ', ', pat.Province, ', ',  pat.PostalCode), pat.MobilePhone, pat.HomePhone, pat.Disease, pat.PatientID FROM Patient as pat WHERE pat.FirstName="Jade" AND pat.LastName="Silva";
+
+
+
+-- Relocate Patient -- 
+update Patient set Hospital = %s where PatientID = '324212123'
+
+
+-- Treat Patient --
+insert into HospitalBills (PatientID, Treatment, TotalFee) values ('635423432', 'Antihistamines, Closed Reduction', '3283.00')
+
+select Treatment, TotalFee from Treatments where PatientID = '324212123'

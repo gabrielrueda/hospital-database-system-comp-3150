@@ -1,27 +1,27 @@
 import mysql.connector
 import time
 import getpass
-# Make your function import like this:
-from actions import getDoctorProfile
-from actions import addDoctor
-from addNurse import addNurse
-from addNurse import getNurseProfile
-
-from actions import getDoctorPatientList
-from actions import payBill_Patient
-
-from actions import patientList
-
-from actions import employeeList
-
-from getBills import getBillsHospital
 
 
-f = open("MYSQL_Practice/hospital-database-system-comp-3150/FinalSubmission/info.txt", "r")
+from actions_1 import getBillsHospital
+from actions_1 import addNurse
+from actions_1 import getNurseProfile
 
-user = f.readline()
 
-# password = f.readline()
+from actions_2 import getDoctorProfile
+from actions_2 import addDoctor
+from actions_2 import getDoctorPatientList
+from actions_2 import payBill_Patient
+from actions_2 import patientList
+from actions_2 import employeeList
+
+from actions_3 import getPatientProfile
+from actions_3 import relocatePatient
+from actions_3 import treatPatient
+
+
+user = input("User Name:")
+
 password = getpass.getpass()
 
 mydb = mysql.connector.connect(
@@ -86,10 +86,12 @@ while(opt != 0):
     opt = int(input(f"Which action (0-{len(menu)}):"))
     print("---")
     myCursor = mydb.cursor(buffered=True)
-    if(opt != 0): eval(menu[opt]["Function"])
+    try:
+        if(opt != 0): eval(menu[opt]["Function"])
+    except:
+        print("ERROR: Action has failed!")
     myCursor.close()
     time.sleep(1)
-
 
 
 mydb.close()

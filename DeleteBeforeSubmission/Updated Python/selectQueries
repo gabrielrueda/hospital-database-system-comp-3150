@@ -1,5 +1,5 @@
 //USE HOSPITAL_DB;
-use hospital_db;
+
 
 -- Just Write all the queries we use in our program here --
 SELECT e.FirstName, e.LastName, s.SpecialName FROM Doctor as d, Employee as e, Specialization as s

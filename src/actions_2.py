@@ -2,11 +2,8 @@ import mysql.connector
 import datetime
 from mysql.connector.errors import InternalError
 
-# Put your functions here (make sure it's imported in main just like the way getDoctorProfile is imported)
+# Created by Gabriel Rueda
 
-
-# Here is an example
-# It will just show the first doctor for now, but that will change
 def getDoctorProfile(myCursor):
     print("Please enter the following information: ")
     fName = input('First Name: ')
@@ -186,7 +183,7 @@ def payBill_Patient(myCursor, mydb):
     myCursor.execute(f"SELECT Treatment, TotalFee FROM Patient WHERE PatientID={patientID};")
 
     myResult = myCursor.fetchall()
-    if(myResult[0][0] == None): 
+    if(myResult[0][0] == "None"): 
         print(f"No Bills to pay")
 
 
