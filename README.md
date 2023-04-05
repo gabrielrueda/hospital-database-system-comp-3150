@@ -7,6 +7,11 @@ COMP-3150 Database Management Systems Course Final Project - Hospital Database S
 - Create a new Database called HOSPITAL_DB
 - Run the .SQL Scripts in the InitialSQLSetup folder
     - NOTE: modify the createUser script with your own username/password
+- Order to run SQL scripts:
+    - createDatabase.sql
+    - createUser.sql
+    - createQueries.sql
+    - insertQueries.sql
 
 #### Run Python Script
 ```bash

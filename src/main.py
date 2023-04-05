@@ -21,16 +21,20 @@ from actions_3 import relocatePatient
 from actions_3 import treatPatient
 
 
-user = input("User Name:")
-
-password = getpass.getpass()
-
-mydb = mysql.connector.connect(
-    host="localhost",
-    user=user,
-    password=password,
-    database="HOSPITAL_DB"
-)
+while(True):
+    try:
+        host = input("Host IP (e.g. localhost): ")
+        user = input("User Name: ")
+        password = getpass.getpass()
+        mydb = mysql.connector.connect(
+            host=host,
+            user=user,
+            password=password,
+            database="HOSPITAL_DB"
+        )
+        break
+    except:
+        print("Error Connecting to HOSPITAL_DB. Please try again.")
 
 # make sure your function is stated in the dictionary below:
 menu = {
