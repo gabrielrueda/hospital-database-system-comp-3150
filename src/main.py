@@ -14,6 +14,7 @@ from actions_2 import getDoctorPatientList
 from actions_2 import payBill_Patient
 from actions_2 import patientList
 from actions_2 import employeeList
+from actions_2 import addPatient
 
 from actions_3 import getPatientProfile
 from actions_3 import relocatePatient
@@ -40,7 +41,7 @@ menu = {
         "Function": "addNurse(myCursor, mydb)"
         },
     3: {"Name": "Add Patient", 
-        "Function": "addPatient(myCursor)"
+        "Function": "addPatient(myCursor, mydb)"
         },
     4: {"Name": "Get Bills Due by Hospital", 
         "Function": "getBillsHospital(myCursor)"
@@ -61,7 +62,7 @@ menu = {
         "Function": "getDoctorPatientList(myCursor)"
         },
     10: {"Name": "Treat Patient", 
-        "Function": "treatPatient(myCursor)"
+        "Function": "treatPatient(myCursor, mydb)"
         },
     11: {"Name": "Employee List", 
         "Function": "employeeList(myCursor)"

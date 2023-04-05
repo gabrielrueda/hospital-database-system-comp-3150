@@ -64,7 +64,7 @@ INSERT INTO Hospital
 VALUES ("Metropolitan", 1995, "Lens Ave", "Windsor","ON", "N8W1L9", 0);
 
 INSERT INTO Hospital
-VALUES ("Outlette", 1030, "Ouellette Ave", "Windsor","ON", "N9A1E1", 0);
+VALUES ("Ouellette", 1030, "Ouellette Ave", "Windsor","ON", "N9A1E1", 0);
 
 INSERT INTO Hospital
 VALUES ("Grace", 1453, "Prince Rd.", "Windsor","ON", "N9C3Z4", 0);
@@ -74,15 +74,15 @@ VALUES ("Grace", 1453, "Prince Rd.", "Windsor","ON", "N9C3Z4", 0);
 
 -- Insert Patients --
 INSERT INTO Patient VALUES (324212123, 354236423, 'Jade', NULL, 'Silva', 34, 'Windsor', 'ON', 'N9G3I4', 'Rose', 3022, NULL, '5193532533', '4162533325', 958658445, 'Flu','Grace',NULL, 0, 0);
-INSERT INTO Patient VALUES (342345623, 653457343, 'Alistair', 'Hahn', 'Ortiz', 64, 'Windsor', 'ON', 'N3G7K3', 'James', 4464, 364, '2267465322', '2263743453', 958658445, 'Heart Attack','Grace', 'Thrombolytics', 20, 10000);
+INSERT INTO Patient VALUES (342345623, 653457343, 'Alistair', 'Hahn', 'Ortiz', 64, 'Windsor', 'ON', 'N3G7K3', 'James', 4464, 364, '2267465322', '2263743453', 958658445, 'Heart Attack','Grace', 'Antihistamines', 20, 0.02);
 INSERT INTO Patient VALUES (344532423, 634534334, 'Keiran', 'Blake', 'Harrell', 76, 'Windsor', 'ON', 'N3G3H3', 'Bayfield', 3263, NULL, '5192353232', '2263245323', 958658445, 'Asthma, Headache','Grace', NULL, 0, 0);
-INSERT INTO Patient VALUES (354234322, 484838747, 'Peter', 'Ginzales', 'Meza', 42, 'Windsor', 'ON', 'N9Y8Q2', 'Jade', 4483, 2233, '2264563475', '2264753485', 958658445, 'Stroke, Fracture','Ouellette', 'Anticoagulants, Closed Reduction', 8, 835);
-INSERT INTO Patient VALUES (354623432, 485342992, 'Zara', NULL, 'Zarah', 6, 'Windsor', 'ON', 'N3E2P3', 'Main', 4982, NULL, '5193463262', '2263456342', 958658445, 'Chicken Pox','Ouellette', 'Antivirals', 10, 70);
-INSERT INTO Patient VALUES (452346323, 577343623, 'Veronica ', 'Lindsey', 'James', 25, 'Windsor', 'ON', 'N9H4P3', 'Dundas', 3709, NULL, '5192635354', '5193764233', 958658445, 'Migraine','Ouellette', 'Analgesics, Glucocorticoids', 4, 450);
-INSERT INTO Patient VALUES (623434362, 564568384, 'Aarom', 'Paul', 'Crawford', 87, 'Windsor', 'ON', 'N9O8H2', 'Nelson', 4248, 2823, '5195632643', '2263758345', 958658445, 'Leukemia','Metropolitan', 'Monoclonal Antibodies', 60, 45670);
+INSERT INTO Patient VALUES (354234322, 484838747, 'Peter', 'Ginzales', 'Meza', 42, 'Windsor', 'ON', 'N9Y8Q2', 'Jade', 4483, 2233, '2264563475', '2264753485', 958658445, 'Stroke, Fracture','Ouellette', 'Advil', 8, 10200.35);
+INSERT INTO Patient VALUES (354623432, 485342992, 'Zara', NULL, 'Zarah', 6, 'Windsor', 'ON', 'N3E2P3', 'Main', 4982, NULL, '5193463262', '2263456342', 958658445, 'Chicken Pox','Grace', 'Antihistamines, Closed Reduction', 10, 3283.00);
+INSERT INTO Patient VALUES (452346323, 577343623, 'Veronica ', 'Lindsey', 'James', 25, 'Windsor', 'ON', 'N9H4P3', 'Dundas', 3709, NULL, '5192635354', '5193764233', 958658445, 'Migraine','Metropolitan', 'Closed Reduction', 4, 3283.00);
+INSERT INTO Patient VALUES (623434362, 564568384, 'Aarom', 'Paul', 'Crawford', 87, 'Windsor', 'ON', 'N9O8H2', 'Nelson', 4248, 2823, '5195632643', '2263758345', 958658445, 'Leukemia','Metropolitan', NULL, 0, 0);
 INSERT INTO Patient VALUES (634233232, 438492343, 'Carl', 'Donovam', 'Stone', 52, 'Windsor', 'ON', 'N5E3O9', 'Lynden', 837, NULL, '2263647232', '5193247324', 958658445, 'Alopecia, Sunburn','Metropolitan', NULL, 2, 0);
-INSERT INTO Patient VALUES (635243221, 546235423, 'Emily', NULL, 'Smith', 20, 'Windsor', 'ON', 'N8P3D3', 'Paradise', 1291, NULL, '5144990865', '5147992583', 958658445, 'Influenza','Metropolitan', 'Antiviral, Cough suppressants', 4, 125);
-INSERT INTO Patient VALUES (635423432, 767345343, 'Taylor', 'Tiffany', 'Gibbons', 99, 'Windsor', 'ON', 'N3I8H1', 'Lockhart', 5865, NULL, '2264657345', '5193672353', 958658445, 'Allergy, Fracture','Metropolitan', 'Antihistamines, Closed Reduction', 5, 3283);
+INSERT INTO Patient VALUES (635243221, 546235423, 'Emily', NULL, 'Smith', 20, 'Windsor', 'ON', 'N8P3D3', 'Paradise', 1291, NULL, '5144990865', '5147992583', 958658445, 'Influenza','Metropolitan',NULL, 0, 0);
+INSERT INTO Patient VALUES (635423432, 767345343, 'Taylor', 'Tiffany', 'Gibbons', 99, 'Windsor', 'ON', 'N3I8H1', 'Lockhart', 5865, NULL, '2264657345', '5193672353', 958658445, 'Allergy, Fracture','Metropolitan', NULL, 0, 0);
 
 
 
@@ -99,7 +99,7 @@ VALUES (147289473, "Grand Marais", 2930, "Dominion Blvd",0, "Windsor","ON", "N9E
 
 -- Insert Hospital Bills --
 
-INSERT INTO HospitalBills VALUES(123, 164187546, "Outlette", "Advil", 10200.35);
+INSERT INTO HospitalBills VALUES(123, 164187546, "Ouellette", "Advil", 10200.35);
 INSERT INTO HospitalBills VALUES(453, 164187546, "Grace", "Antihistamines", 0.02);
 
 

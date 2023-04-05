@@ -1,6 +1,8 @@
 import mysql.connector
 import datetime
 from mysql.connector.errors import InternalError
+from actions_3 import AssignPatientToHospital
+
 
 # Created by Gabriel Rueda
 
@@ -37,6 +39,7 @@ def doctorProfile(myCursor, fName, lName, empID=None):
     myResult = myCursor.fetchall() 
 
     return myResult
+
 
 
 def checkValidDate(year, month, day):
@@ -137,6 +140,73 @@ def addDoctor(myCursor, mydb):
     myCursor.close()
 
 
+def addPatient(myCursor, mydb):
+
+    print("Please enter the following information: ")
+    fName = input('First Name: ')
+    mInitial = input('Middle Name: ')
+    lName = input('Last Name: ')
+
+
+    myCursor.close()
+    myCursor = mydb.cursor(buffered=True)
+
+    provinceConvertor = {
+        'Alberta': 'AB',
+        'British Columbia': 'BC',
+        'Manitoba': 'MB',
+        'New Brunswick': 'NB',
+        'Newfoundland and Labrador': 'NL',
+        'Northwest Territories': 'NT',
+        'Nova Scotia': 'NS',
+        'Nunavut': 'NU',
+        'Ontario': 'ON',
+        'Prince Edward Island': 'PE',
+        'Quebec': 'QC',
+        'Saskatchewan': 'SK',
+        'Yukon': 'YT'
+    }
+
+
+    sinNumber = input('SIN Number: ')
+    age = input('Age: ')
+    MobileNumber = input('Mobile Number: ')
+    HomePhone = input('Home Phone Number: ')
+    primaryDoc = input('Primary Docter ID: ')
+    disease = input('Disease: ')
+    hospital = AssignPatientToHospital()
+    date = input('Date (YYYY-MM-DD): ')
+    while(not checkValidDate(date[0:4], date[5:7], date[8:10])):
+        print("Invalid Date!!")
+        date = input('Date (YYYY-MM-DD): ')
+
+
+
+    streetNum = input('Street Number: ')
+    streetName = input('Street Name: ')
+    postalCode = input('Postal Code (XXXXXX): ')
+    while(len(postalCode) != 6):
+        print("Invalid Postal Code!!")
+        postalCode = input('Postal Code (XXXXXX): ')
+
+    city = input('City: ')
+    province = input("Province:")
+    while(province not in provinceConvertor):
+        print("Invalid Province!!")
+        province = input("Province:")  
+
+    province = provinceConvertor[province]
+
+    myCursor.execute(f'SELECT @NewPatientID := MAX(EmpID)+1 FROM Employee;')
+    myCursor.execute(f"INSERT INTO Patient VALUES (@NewPatientID, {sinNumber}, \'{fName}\', \'{mInitial}\', \'{lName}\', {age}, \'{city}\', \'{province}\', \'{postalCode}\', \'{streetName}\', {streetNum}, NULL, \'{MobileNumber}\', \'{HomePhone}\', {primaryDoc}, \'{disease}\',\'{hospital}\',NULL, 0, 0);")
+
+    try:
+        mydb.commit()
+    except InternalError:
+        print("NOTHING")
+    
+    myCursor.close()
+
 def getDoctorPatientList(myCursor):
     print("Please enter the following information: ")
     fName = input('First Name: ')
@@ -168,7 +238,7 @@ def getDoctorPatientList(myCursor):
             if(patient[3] == None):
                 print(f"No Treatement Yet")
             else:
-                print(f"\tTreatment: {patient[2]}")
+                print(f"\tTreatment: {patient[3]}")
             
             myCursor.execute(f"SELECT CONCAT(E.FirstName,\' \', E.LastName), E.empID FROM Employee as E WHERE EmpID IN (SELECT N.EmpID FROM Nurse as N WHERE N.Patient1={patient[0]} OR N.Patient2={patient[0]});")
             nurses = myCursor.fetchall() 
@@ -198,6 +268,7 @@ def payBill_Patient(myCursor, mydb):
     myCursor = mydb.cursor(buffered=True)
 
     myCursor.execute(f'UPDATE Patient SET Treatment=NULL, TotalFee=0 WHERE PatientID={patientID};')
+    myCursor.execute(f'DELETE FROM HospitalBills WHERE PrescriptionName=\'{myResult[0][0]}\' and Amount={myResult[0][1]};')
 
     try:
         mydb.commit()

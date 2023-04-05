@@ -50,11 +50,11 @@ def patientProfile(myCursor, fName, lName, patientID=None):
     return myResult
 
 # Randomly assigns a patient into a hospital
-def AssignPatientToHospital(myCursor):
-    hospitals = ['Grace', 'Metropolitan', 'Outlette']
+def AssignPatientToHospital():
+    hospitals = ['Grace', 'Metropolitan', 'Ouellette']
     result = random.choice(hospitals)
 
-    print(f"Patient has been assigned to {result}.")
+    # print(f"Patient has been assigned to {result}.")
     return result
 
 # Relocates patient into a different hospital
@@ -73,20 +73,50 @@ def relocatePatient(myCursor, mydb):
 
     print(f"Patient with ID {PatientID} has been relocated to {NewLocation}.")
 
-# Lists the treatments the patient had and display the bill
-def treatPatient(myCursor): 
+# Lists the treatments the patient had, updates patient and displays the bill from the pharmacy 
+def treatPatient(myCursor, mydb): 
     PatientID = input("PatientID: ")
     Treatment = input("Treatment: ")
-    TotalFee = input('Cost: ')
+    TotalFee = input("Cost: ")
 
-    myCursor.execute(f"insert into HospitalBills (PatientID, Treatment, TotalFee) values (%s, %s, %s)", (PatientID, Treatment, TotalFee))
+    myCursor.execute(f"SELECT PharmacyName FROM Pharmacy;")
+
+    result = (myCursor.fetchall())
+
+    print(f"Pharmacy (", end="")
+
+    for ph in result:
+        print(ph[0] + ", ", end="")
+
+    print("): ", end="")
+         
+
+
+    PharmacyName = input("")
+
+
+
+    myCursor.execute(f"SELECT @NewBillNo := MAX(BillNO)+1 FROM HospitalBills; ")
+    myCursor.execute(f"insert into HospitalBills values (@NewBillNO, (SELECT Ph.PharmacyID FROM Pharmacy as Ph WHERE Ph.PharmacyName=\'{PharmacyName}\'), (SELECT Pat.Hospital FROM Patient as Pat WHERE Pat.PatientID={PatientID}), \'{Treatment}\', \'{TotalFee}\');")
     
-    myCursor.execute(f"select Treatment, TotalFee from Treatments where PatientID = %s", (PatientID))
+    myCursor.execute(f"update Patient set Treatment = \'{Treatment}\', TotalFee={TotalFee} where PatientID = {PatientID};")
+
+    try:
+        mydb.commit()
+    except:
+        pass
+    
+    myCursor.close()
+    myCursor = mydb.cursor(buffered=True)
+
+
+    myCursor.execute(f"select Treatment, TotalFee, Hospital from Patient where PatientID = {PatientID};")
     result = myCursor.fetchall() 
 
     if result:
-        TotalFee = result[0][0]
-        print(f"Total bill for patient with ID {PatientID} is: ${TotalFee}")
+        Treatment = result[0][0]
+        TotalFee = result[0][1]
+        print(f"Total bill for patient with ID {PatientID} from {result[0][2]} is: ${TotalFee}")
     else:
         print(f"This patient has no treatment information.")
 

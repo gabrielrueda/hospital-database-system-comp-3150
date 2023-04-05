@@ -31,6 +31,21 @@ CREATE TABLE Doctor(
     FOREIGN KEY(Specialization) REFERENCES Specialization(SpecialID)
 );
 
+CREATE TABLE Hospital
+(
+    HospitalName VARCHAR(30),
+    AddressStreetAddressStreetNo INT,
+    AddressStreetAddressName VARCHAR(30),
+    AddressCity VARCHAR(20) NOT NULL,
+    AddressProvince CHAR(2) NOT NULL,
+    AddressPostalCode CHAR(6) NOT NULL,
+
+    AmountOwedToPharmacy DECIMAL(10, 2) DEFAULT 0,
+
+    PRIMARY KEY(HospitalName)
+);
+
+
 CREATE TABLE Patient(
 	PatientID int NOT NULL,
 	SIN int NOT NULL,
@@ -54,24 +69,11 @@ CREATE TABLE Patient(
 	TotalFee DECIMAL(10,2) DEFAULT 0,
 
     PRIMARY KEY(PatientID), 
+    FOREIGN KEY(Hospital) REFERENCES Hospital(HospitalName),
     FOREIGN KEY(PrimaryDoctorID) REFERENCES Doctor(EmpID)
 );
 
 
-
-CREATE TABLE Hospital
-(
-    HospitalName VARCHAR(30),
-    AddressStreetAddressStreetNo INT,
-    AddressStreetAddressName VARCHAR(30),
-    AddressCity VARCHAR(20) NOT NULL,
-    AddressProvince CHAR(2) NOT NULL,
-    AddressPostalCode CHAR(6) NOT NULL,
-
-    AmountOwedToPharmacy DECIMAL(10, 2) DEFAULT 0,
-
-    PRIMARY KEY(HospitalName)
-);
 
 CREATE TABLE Pharmacy
 (

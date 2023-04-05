@@ -58,6 +58,9 @@ SELECT Treatment, TotalFee FROM Patient WHERE PatientID=324212123;
 
 UPDATE Patient SET Treatment=NULL, TotalFee=0 WHERE PatientID=324212123;
 
+DELETE FROM HospitalBills WHERE PrescriptionName='Meds' and Amount=555.55;
+
+
 
 -- Patient List --
 SELECT CONCAT(FirstName, ' ', LastName), PatientID FROM Patient
@@ -84,6 +87,15 @@ update Patient set Hospital = %s where PatientID = '324212123'
 
 
 -- Treat Patient --
-insert into HospitalBills (PatientID, Treatment, TotalFee) values ('635423432', 'Antihistamines, Closed Reduction', '3283.00')
+
+SELECT @NewBillNo := MAX(BillNO)+1 FROM HospitalBills;
+
+insert into HospitalBills values (@NewBillNO, 
+(SELECT Ph.PharmacyID FROM Pharmacy as Ph WHERE Ph.PharmacyName='Grand Marais'), 
+(SELECT Pat.Hospital FROM Patient as Pat WHERE Pat.PatientID=354234322), 
+'Closed Reduction', 
+'3283.00');
+
+select * FROM `HospitalBills`;
 
 select Treatment, TotalFee from Treatments where PatientID = '324212123'
